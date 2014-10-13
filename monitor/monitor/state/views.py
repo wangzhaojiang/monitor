@@ -13,7 +13,7 @@ def info(request):
     content = []
     content.append(Basic._issue())
     content.append(Basic._uname())
-    print Basic._ifconfig()
+    Basic._ifconfig()
     return render_to_response('info.html', {'content': content, 'w': Basic._w(), 'netstat': Basic._netstat(),})
     
 class Basicinfo():
@@ -42,7 +42,19 @@ class Basicinfo():
         ifconfig = os.popen('ifconfig').readlines()
         interface = []
         for tip in ifconfig:
-            al = re.findall('^[^ ]\w+', tip)
-            if al :
-                interface.append(al)
-        
+            tmp = re.findall('^[^ ]\w+', tip)
+            if tmp :
+                interface.append(tmp)
+        ip = []
+        for tip in interface:
+            tmp1 = tip[0]
+            tmp2 = os.popen('ifconfig ' + tmp1).readlines()
+            for tmp3 in tmp2:
+                tmp4 = re.findall('inet ', tmp3)
+                if tmp4:
+                    tmp3 = tmp3.split()
+                    print tmp1,
+                    print tmp3[1],
+                    print tmp3[3]
+
+
