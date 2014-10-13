@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %} The infomation of the computer {% endblock %}
+{% block content %}
+{% for tip in content %}
+    {% if tip %}    
+        <li> {{ tip }} </li>
+    {% endif %}
+{% endfor %}
+{% endblock %}
