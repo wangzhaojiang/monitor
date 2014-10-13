@@ -7,4 +7,18 @@
         <li> {{ tip }} </li>
     {% endif %}
 {% endfor %}
+<p></p>
+<li>USER:</li>
+{% for tip in w %}
+    {% if tip %}    
+        <p> {{ tip }} </p>
+    {% endif %}
+{% endfor %}
+<p></p>
+<li>The Port:</li>
+{% for tip in netstat %}
+    {% if tip %}    
+        <p>     {{ tip }} </p>
+    {% endif %}
+{% endfor %}
 {% endblock %}
