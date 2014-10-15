@@ -123,8 +123,8 @@ function drawPie(){
 	});
 //	streakerDataAdded[0].octetTotalCount = Math.ceil(Math.random()*(arrayRange));
 //	streakerDataAdded[1].octetTotalCount = Math.ceil(Math.random()*(arrayRange));
-	streakerDataAdded[0].port = "free";
-	streakerDataAdded[1].port = "busy";
+	streakerDataAdded[0].port = "busy";
+	streakerDataAdded[1].port = "free";
 
     oldPieData = filteredPieData;
     pieData = donut(streakerDataAdded);

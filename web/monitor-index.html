@@ -6,43 +6,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<link href="css/bootstrap.css" rel="stylesheet" />
 		<link href="css/d3-bing.css" rel="stylesheet" />
-<style>
-
-        #test .arc2 {
-            stroke-weight:0.1;
-            fill: #3660b0;
-        }
-
-        #outer {
-            background:#FFFFFF;
-            border-radius: 5px;
-            color: #000;
-        }
-
-        #bing{
-            width: 33%;
-            height: 200px;
-            box-sizing: border-box;
-            float: left;
-        }
-
-        .selectedRadial {
-            border-radius: 3px;
-            background: #f4f4f4;
-            color: #000;
-            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            -moz-box-shadow: 0 1px 5px rgba(0,0,0,0.4);
-            border: 1px solid rgba(200,200,200,0.85);
-        }
-
-        .radial {
-            border-radius: 3px;
-            background: #FFFFFF;
-            color: #000;
-        }
-
-
-    </style>
+		<link href="css/style.css" rel="stylesheet" />
 	</head>
 	<body>
 	<div>
@@ -91,13 +55,22 @@
 				</ul>
 			</div>
 			<div class="col-md-10">
-				<div id="netport-table">
-					<table class="table table-striped">
+				<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+				<div id="netport-div">
+					<table class="table table-striped table-bordered table-hover" id="netport-table">
+						<thead>
+							<tr>
+								<th class="text-center">Type</th>
+								<th class="text-center">Address</th>
+								<th class="text-center">Pid/Program_Name</th>
+							</tr>
+						</thead>
+						<tbody id="netport-tbody"></tbody>
+					</table>
 				</div>
 				<div id="bing"></div>
 				<div id="easy-as-pie-chart"></div>
 				<div id="bingbing"></div>
-				<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 			</div>
 		</div>
 	</div>
@@ -111,6 +84,46 @@
 	<script src="js/radialProgress.js"></script>
 	<script type="text/javascript" src="js/pie-random.js"></script>
 	<script type="text/javascript">window.onload = drawPie;</script>
+	<script>
+	createTable();
+	function createTable() {
+		$.ajax({
+			url: "data.html.bak",
+			type: "GET",
+			dataType: "JSON",
+			success: function(data) {
+				var objson = eval(data);
+				for ( var i = 0; i < objson.length; i ++ ) {
+					var row = document.createElement("tr");
+					row.setAttribute("class", "text-info");
+					var col1 = document.createElement("th");
+					col1.setAttribute("class", "text-center");
+					col1.appendChild(document.createTextNode(objson[i].type));
+					row.appendChild(col1);
+					var col2 = document.createElement("th");
+					col2.setAttribute("class", "text-center");
+					col2.appendChild(document.createTextNode(objson[i].address));
+					row.appendChild(col2);
+					var col3 = document.createElement("th");
+					col3.setAttribute("class", "text-center");
+					col3.appendChild(document.createTextNode(objson[i].pid_program_name));
+					row.appendChild(col3);
+					document.getElementById("netport-tbody").appendChild(row);
+				}
+			}
+		});
+		/*for ( var i = 0; i < 5; i ++ ) {
+			var row = document.createElement("tr");
+			for ( var j = 0; j < 3; j ++ ) {
+				var col = document.createElement("th");
+				col.setAttribute("class", "text-center");
+				col.appendChild(document.createTextNode("测试数据"));
+				row.appendChild(col);
+			}
+			document.getElementById("netport-tbody").appendChild(row);
+		}*/
+	}
+	</script>
 	<script type="text/javascript">
 	$(function () {                                                                     
     $(document).ready(function() {                                                  
