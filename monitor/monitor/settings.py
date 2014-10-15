@@ -83,4 +83,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'monitor/templates')]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, '/home/wzj/Documents/python/monitor/monitor/monitor/templates')]
+#
+HERE = os.path.dirname(os.path.abspath(__file__))
+HERR = os.path.join(HERE, '../')
+#
+STATICFILES_DIRS = (
+        os.path.join(HERE, 'static/'),
+        )

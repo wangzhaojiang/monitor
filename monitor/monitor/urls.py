@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hello/$', views.hello),
     url(r'^cpu/$', views.state_cpu),
-    url(r'^port/$', views.state_netstat),
+    url(r'^port/$', views.state_port),
+    url(r'^state/$', views.state),
+    url(r'^netstat/$', views.state_netstat),
 )
