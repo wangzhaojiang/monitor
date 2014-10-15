@@ -11,5 +11,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^hello/$', views.hello),
-    #url(r'^info/$', views.info),
+    url(r'^cpu/$', views.state_cpu),
+    url(r'^port/$', views.state_netstat),
 )
