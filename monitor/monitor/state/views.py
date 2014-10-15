@@ -18,7 +18,7 @@ def info(request):
     
 class Basicinfo():
     """the basic infomation of the computer"""
-    def __init__(self):
+    def __init__(self)
         pass
     
     def _issue(self):
