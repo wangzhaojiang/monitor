@@ -35,7 +35,7 @@ def netstat():
     return results
 
 
-def getdata():
+def getdata_cpu():
     f = open('/proc/stat', 'r')    
     
     stat = f.readlines()
@@ -81,10 +81,37 @@ def calculate(data_old, data_new):
     
 
 def cpu():
-    data_old = getdata()
+    data_old = getdata_cpu()
     time.sleep(1)
-    data_new = getdata()
+    data_new = getdata_cpu()
     result = calculate(data_old, data_new)
     
     return result
 
+def getdata_memory():
+    f = open('/proc/meminfo', 'r')
+    
+    data = []
+    num = 0 # 只读取前四行
+
+    while num < 4:
+        content = f.readline()
+        content = content.split()
+
+        content[1] = int(content[1])
+        
+        data.append(content[1])
+
+        num += 1
+
+
+    return data
+
+
+def memory():
+    """内存使用率(MEMUsedPerc)=100*(MemTotal-MemFree-Buffers-Cached)/MemTotal"""
+    data = getdata_memory()
+
+    MEMusePerc = (data[0] - data[1] - data[2] - data[3]) * 1.0 / data[0]
+
+    return '{\"MemUse\": %s}' % MEMusePerc

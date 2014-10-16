@@ -10,16 +10,27 @@ from monitor.function import function
 def hello(request):
     return HttpResponse('hello world')
 
-def state_cpu(request):
+def get_cpu(request):
     result = function.cpu()
     return HttpResponse(result)
 
-def state_port(request):
+def get_port(request):
     result = function.netstat()
     return HttpResponse(result)
 
-def state(request):
+def get_memory(request):
+    result = function.memory()
+    return HttpResponse(result)
+
+def state(request):     #index
     return render_to_response('web/index.html')
 
 def state_netstat(request):
     return render_to_response('web/network/status.html')
+
+#def state_memory(request):
+#    return render_to_response('')
+#
+#def state_cpu(request):
+#    return render_to_response('')
+#    

@@ -76,7 +76,7 @@
 		createTable();
 		function createTable() {
 			$.ajax({
-				url: "http://localhost:8000/port/",
+				url: "http://127.0.0.1:8000/get_port/",
 				type: "GET",
 				dataType: "json",
 				success: function(data) {
