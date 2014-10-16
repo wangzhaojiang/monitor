@@ -75,16 +75,11 @@
 		<script>
 		createTable();
 		function createTable() {
-            var accessToken = window.location.hash.substring(1);
 			$.ajax({
-				url: "http://127.0.0.1:8000/port/" + accessToken,
+				url: "http://localhost:8000/port/",
 				type: "GET",
-                async: false
-				dataType: "jsonp",
-                jsonp: "callback",
-                jsonpCallback:"callback",
+				dataType: "json",
 				success: function(data) {
-                    alert(data);
 					var objson = eval(data);
 					for ( var i = 0; i < objson.length; i ++ ) {
 						var row = document.createElement("tr");

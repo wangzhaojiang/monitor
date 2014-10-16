@@ -85,9 +85,9 @@ STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, '/home/wzj/Documents/python/monitor/monitor/monitor/templates')]
 #
-HERE = os.path.dirname(os.path.abspath(__file__))
-HERR = os.path.join(HERE, '../')
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR, PROJECT_MODULE = os.path.split(PROJECT_ROOT)
 #
 STATICFILES_DIRS = (
-        os.path.join(HERE, 'static/'),
+        os.path.join(PROJECT_ROOT, 'static/'),
         )
