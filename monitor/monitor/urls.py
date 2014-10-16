@@ -11,12 +11,12 @@ urlpatterns = patterns('',
 
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^hello/$', views.hello),
-    #url(r'^get_cpu/$', views.get_cpu),
+    url(r'^get_cpu/$', views.get_cpu),
     url(r'^get_port/$', views.get_port),
     #url(r'^get_memory/$', views.get_memory),
     url(r'^state/$', views.state),
     url(r'^network/$', views.state_netstat),
-    #url(r'^cpu/$', views.state_cpu),
+    url(r'^cpu/$', views.state_cpu),
     #url(r'^memory/$', views.state_memory),
     
 )

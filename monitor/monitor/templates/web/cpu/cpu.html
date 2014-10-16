@@ -181,7 +181,7 @@
 			    streakerDataAdded = d3.range(arraySize).map(fillArray);
 				streakerDataAdded[0].octetTotalCount = 3;
 				$.ajax({
-					url: "../data.cpu.htm",
+					url: "http://127.0.0.1:8000/get_cpu",
 					//url: ajaxurl,
 					type: "GET",
 					dataType: "JSON",

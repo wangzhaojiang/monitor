@@ -31,6 +31,6 @@ def state_netstat(request):
 #def state_memory(request):
 #    return render_to_response('')
 #
-#def state_cpu(request):
-#    return render_to_response('')
-#    
+def state_cpu(request):
+    return render_to_response('web/cpu/cpu.html')
+    
