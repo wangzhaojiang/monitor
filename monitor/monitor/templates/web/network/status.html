@@ -76,7 +76,8 @@
 		createTable();
 		function createTable() {
 			$.ajax({
-				url: "http://localhost:8000/port/",
+				url: "../data.html.bak",
+				//url: "http://localhost:8000/port/",
 				type: "GET",
 				dataType: "json",
 				success: function(data) {
