@@ -34,7 +34,6 @@ def calculate(data_old, data_new):
         result = 0
 
         for ele in data:
-            print type(ele)
             result = result + ele
         
         return result
@@ -42,8 +41,6 @@ def calculate(data_old, data_new):
     co_time = addall(data_old)
     cn_time = addall(data_new)
 
-    print co_time
-    print cn_time
 
     user_pass = data_new[0] - data_old[0]
     system_pass = data_new[2] - data_old[2]
@@ -52,10 +49,6 @@ def calculate(data_old, data_new):
     u_cpu_use = user_pass * 1.0 / cpu_pass
     k_cpu_use = system_pass * 1.0 / cpu_pass
     a_cpu_use = u_cpu_use + k_cpu_use
-
-    print u_cpu_use
-    print k_cpu_use
-    print a_cpu_use
 
     result = "{\"user\": \"%s\", \"system\": \"%s\", \"all_use\": \"%s\"}" % (u_cpu_use, k_cpu_use, a_cpu_use) 
 
