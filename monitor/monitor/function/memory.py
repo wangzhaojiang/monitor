@@ -6,33 +6,37 @@
 #  Author : Wangzhaojiang
 #  Email : wangzhaojiang2013@gmail.com
 #  ------------------------------------
+import re
 
 
 
 def getdata_memory():
     f = open('/proc/meminfo', 'r')
-    
-    data = []
-    num = 0 # 只读取前四行
-
-    while num < 4:
-        content = f.readline()
-        content = content.split()
-
-        content[1] = int(content[1])
+    content = f.readlines()
         
-        data.append(content[1])
+    option = ['^MemTotal:', '^MemFree:', '^Buffers:', '^Cached:', '^SwapTotal:', '^SwapFree:']
 
-        num += 1
+    data = {}
 
+    for each_line in content:
+        for search in option:
+            result = re.findall(search, each_line)
+            
+            if len(result) != 0:
+                option.remove(search)
+                result = each_line.split()
+                data[result[0]] = int(result[1])
 
     return data
 
 
 def memory():
     """内存使用率(MEMUsedPerc)=100*(MemTotal-MemFree-Buffers-Cached)/MemTotal"""
+    
     data = getdata_memory()
 
-    MEMusePerc = (data[0] - data[1] - data[2] - data[3]) * 1.0 / data[0]
+    MEMusePerc = (data['MemTotal:'] - data['MemFree:'] - data['Buffers:'] - data['Cached:']) * 1.0 / data['MemTotal:']
 
-    return '{\"MemUse\": %s}' % MEMusePerc
+    print '{\"Memtotal\": %s, \"MemUse\": %s, \"SwapTotal\": %s, \"SwapFree\": %s}' % (MEMusePerc, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:'])
+
+memory()

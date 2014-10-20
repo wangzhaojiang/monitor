@@ -47,10 +47,6 @@ def calculate(data_old, data_new):
     co_time = addall(data_old)
     cn_time = addall(data_new)
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 38c412b08ef2f75622a7b0b64f82f5f44aa67bce
     user_pass = data_new[0] - data_old[0]
     system_pass = data_new[2] - data_old[2]
     cpu_pass = cn_time - co_time
