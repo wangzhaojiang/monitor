@@ -26,6 +26,9 @@ def getdata_memory():
                 option.remove(search)
                 result = each_line.split()
                 data[result[0]] = int(result[1])
+                break
+
+    f.close()
 
     return data
 
