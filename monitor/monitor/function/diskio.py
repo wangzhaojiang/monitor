@@ -23,7 +23,6 @@ def getdata_diskio():
             result = re.findall(search, each_line)
             if len(result) != 0:
                 result = each_line.split()
-                print result
 
                 data[result[0]] = int(result[1])
                 
@@ -33,8 +32,12 @@ def getdata_diskio():
 
 
 def diskio():
-    data = getdata_diskio()
-    print data
+    data_old = getdata_diskio()
+    old_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
+    print old_time
+   # time.sleep(60)
+   # new_time = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+   # data_new = getdata_diskio()
 
 
 diskio()
