@@ -40,6 +40,6 @@ def memory():
 
     MEMusePerc = (data['MemTotal:'] - data['MemFree:'] - data['Buffers:'] - data['Cached:']) * 1.0 / data['MemTotal:']
 
-    print '{\"Memtotal\": %s, \"MemUse\": %s, \"SwapTotal\": %s, \"SwapFree\": %s}' % (MEMusePerc, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:'])
+    print '{\"MemUse\": %s, \"MemTotal\": %s, \"SwapTotal\": %s, \"SwapFree\": %s}' % (MEMusePerc, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:'])
 
 memory()
