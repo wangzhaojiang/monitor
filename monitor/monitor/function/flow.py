@@ -31,9 +31,9 @@ def getdata_flow():
 def flow():
     data_old = getdata_flow()
     
-    #time_old = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
-    time.sleep(3)
-    #time_new = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+    time_old = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+    time.sleep(60)
+    time_new = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
     
     data_new = getdata_flow()
 
@@ -45,7 +45,7 @@ def flow():
         old = data_old[count]
         new = data_new[count]
         interface = old[0]
-        byte = new[1] - old[1]
+        byte = (new[1] - old[1]) * 8 #转换成bit流
         packets = new[2] - old[2]
 
         tmp = [interface, byte, packets]
