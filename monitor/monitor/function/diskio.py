@@ -7,7 +7,6 @@
 #  Email : wangzhaojiang2013@gmail.com
 #  ------------------------------------
 import re
-import time
 
 
 def getdata_diskio():
@@ -35,9 +34,8 @@ def diskio():
     data_old = getdata_diskio()
     old_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
     print old_time
-   # time.sleep(60)
-   # new_time = time.strftime('%Y-%m-%d',time.localtime(time.time()))
-   # data_new = getdata_diskio()
+    new_time = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    data_new = getdata_diskio()
 
 
 diskio()
