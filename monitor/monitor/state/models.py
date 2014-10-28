@@ -15,8 +15,25 @@ class cpu(models.Model):
 
 class diskio(models.Model):
     time = models.CharField(max_length = 30)
-    pgpgin = models.FloatField(default = 0)
-    pgpgout = models.FloatField(default = 0)
+    pgpgin = models.FloatField(default = 0.0)
+    pgpgout = models.FloatField(default = 0.0)
 
 
-class 
+class flow(models.Model):
+    time = models.CharField(max_length = 30)
+    interface = models.CharField(max_length = 20)
+    byte = models.IntegerField(default = 0)
+    packets = models.IntegerField(default = 0)
+
+class memory(models.Model):
+    time = models.CharField(max_length = 30)
+    memuse = models.FloatField(default = 0.0)
+    memtotal = models.FloatField(default = 0.0)
+    swaptotal = models.FloatField(default = 0.0)
+    swapfree = models.FloatField(default = 0.0)
+
+class netstat(models.Model):
+    time = models.CharField(max_length = 30)
+    types = models.CharField(max_length = 10)
+    address = models.CharField(max_length = 30)
+    pid_programname = models.CharField()
