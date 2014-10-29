@@ -9,25 +9,51 @@
 
 import re
 import os
+import time
+import MySQLdb
 
 
-content = os.popen('netstat -tunlp').readlines()
-
-del content[1]
-del content[0]
-
-results = []
-
-for each_line in content:
-    each_line = each_line.split()
-    if 'LISTEN' in each_line:
-        each_line.remove('LISTEN')
+def netstat():
+    content = os.popen('netstat -tunlp').readlines()
     
-    stat = "{\"type\": \"%s\", \"address\": \"%s\", \"pid_program_name\": \"%s\"}" % (each_line[0], each_line[3], each_line[5])
+    del content[1]
+    del content[0]
     
-    results.append(stat)
+    results = []
+    
+    for each_line in content:
+        each_line = each_line.split()
+        if 'LISTEN' in each_line:
+            each_line.remove('LISTEN')
+        
+        stat = "{\"type\": \"%s\", \"address\": \"%s\", \"pid_program_name\": \"%s\"}" % (each_line[0], each_line[3], each_line[5])
+        
+        results.append(stat)
+    
+    results ='[' + ','.join(results) + ']'
+    
+    print results
+    return results
 
-results ='[' + ','.join(results) + ']'
+def sql(result):
+    time_now = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    
+    conn = MySQLdb.connect(
+            host = 'localhost',
+            port = 3306,
+            user = 'root',
+            passwd = 'notamaiba',
+            db = 'monitor'
+            )
+    
+    cur = conn.cursor()
+
+    cur.execute(
+            'insert into state_netstat(time)'
+            )
 
 
-print results
+
+if __name__ == '__main__':
+    result = netstat()
+    sql(result)

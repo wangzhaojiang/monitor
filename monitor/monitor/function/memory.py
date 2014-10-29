@@ -7,6 +7,8 @@
 #  Email : wangzhaojiang2013@gmail.com
 #  ------------------------------------
 import re
+import MySQLdb
+import time
 
 
 
@@ -38,8 +40,36 @@ def memory():
     
     data = getdata_memory()
 
-    MEMusePerc = (data['MemTotal:'] - data['MemFree:'] - data['Buffers:'] - data['Cached:']) * 1.0 / data['MemTotal:']
+    Memuse = (data['MemTotal:'] - data['MemFree:'] - data['Buffers:'] - data['Cached:']) * 1.0 / data['MemTotal:']
 
-    print '{\"MemUse\": %s, \"MemTotal\": %s, \"SwapTotal\": %s, \"SwapFree\": %s}' % (MEMusePerc, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:'])
+    #print '{\"MemUse\": %s, \"MemTotal\": %s, \"SwapTotal\": %s, \"SwapFree\": %s}' % (MEMusePerc, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:'])
+    
+    return [data, Memuse]
 
-memory()
+
+def sql(result):
+    data = result[0]
+    Memuse = result[1]
+
+    time_now = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    conn = MySQLdb.connect(
+            host = 'localhost',
+            port = 3306,
+            user = 'root',
+            passwd = 'notamaiba',
+            db = 'monitor',
+            )
+    cur = conn.cursor()
+
+    cur.execute(
+            'insert into state_memory(time, memuse, memtotal, swaptotal, swapfree) values(%s, %s, %s, %s, %s)',
+            (time_now, Memuse, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:']))
+
+    cur.close()
+    conn.commit()
+    conn.close()
+
+
+if __name__ == '__main__':
+    result = memory()
+    sql(result)

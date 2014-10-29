@@ -36,4 +36,4 @@ class netstat(models.Model):
     time = models.CharField(max_length = 30)
     types = models.CharField(max_length = 10)
     address = models.CharField(max_length = 30)
-    pid_programname = models.CharField()
+    pid_programname = models.CharField(max_length = 50)

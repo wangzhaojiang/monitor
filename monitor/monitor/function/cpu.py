@@ -62,6 +62,7 @@ def calculate(data_old, data_new):
 
 if __name__ == "__main__":
     data_old = getdata()
-    time.sleep(60)
+    time.sleep(15)
     data_new = getdata()
     result = calculate(data_old, data_new)
+    print result
