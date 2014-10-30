@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponse
 import os
 import re
-from monitor.function import function 
+#from monitor.function import function 
 
 
 # Create your views here.
@@ -11,7 +11,7 @@ def hello(request):
     return HttpResponse('hello world')
 
 def get_cpu(request):
-    result = function.cpu()
+    #result = function.cpu()
     return HttpResponse(result)
 
 def get_port(request):
@@ -33,4 +33,3 @@ def state_netstat(request):
 #
 def state_cpu(request):
     return render_to_response('web/cpu/cpu.html')
-    
