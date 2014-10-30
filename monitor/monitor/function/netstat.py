@@ -26,17 +26,19 @@ def netstat():
         if 'LISTEN' in each_line:
             each_line.remove('LISTEN')
         
-        stat = "{\"type\": \"%s\", \"address\": \"%s\", \"pid_program_name\": \"%s\"}" % (each_line[0], each_line[3], each_line[5])
+        #stat = "{\"type\": \"%s\", \"address\": \"%s\", \"pid_program_name\": \"%s\"}" % (each_line[0], each_line[3], each_line[5])
+        stat = "%s, %s, %s" % (each_line[0], each_line[3], each_line[5])
+        #print stat
         
         results.append(stat)
     
-    results ='[' + ','.join(results) + ']'
+    #results ='[' + ','.join(results) + ']'
     
-    print results
+    #print results
     return results
 
 def sql(result):
-    time_now = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
     
     conn = MySQLdb.connect(
             host = 'localhost',
@@ -48,9 +50,17 @@ def sql(result):
     
     cur = conn.cursor()
 
-    cur.execute(
-            'insert into state_netstat(time)'
-            )
+    for each_line in result:
+        each_line = each_line.split()
+
+        cur.execute(
+                'insert into state_netstat(time, types, address, pid_programname) values(%s, %s, %s, %s)',
+                (time_now, each_line[0], each_line[1], each_line[2])
+                )
+    
+    cur.close()
+    conn.commit()
+    conn.close()
 
 
 

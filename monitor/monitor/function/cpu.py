@@ -8,6 +8,7 @@
 #  ------------------------------------
 
 import time 
+import MySQLdb
 
 def getdata():
     f = open('/proc/stat', 'r')    
@@ -55,14 +56,36 @@ def calculate(data_old, data_new):
     k_cpu_use = system_pass * 1.0 / cpu_pass
     a_cpu_use = u_cpu_use + k_cpu_use
 
-    result = "{\"user\": \"%s\", \"system\": \"%s\", \"all_use\": \"%s\"}" % (u_cpu_use, k_cpu_use, a_cpu_use) 
+    #result = "{\"user\": \"%s\", \"system\": \"%s\", \"all_use\": \"%s\"}" % (u_cpu_use, k_cpu_use, a_cpu_use) 
+    result = [u_cpu_use, k_cpu_use, a_cpu_use] 
 
     return result
     
+def sql(result):
+    time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+    
+    conn = MySQLdb.connect(
+            host = 'localhost',
+            port = 3306,
+            user = 'root',
+            passwd = 'notamaiba',
+            db = 'monitor',
+            )
+    cur = conn.cursor()
+
+    cur.execute(
+            'insert into state_cpu(time, user_use, system_use, all_use) values(%s, %s, %s, %s)',
+            (time_now, result[0], result[1], result[2])
+            )
+
+    cur.close()
+    conn.commit()
+    conn.close()
+
 
 if __name__ == "__main__":
     data_old = getdata()
     time.sleep(15)
     data_new = getdata()
     result = calculate(data_old, data_new)
-    print result
+    sql(result)

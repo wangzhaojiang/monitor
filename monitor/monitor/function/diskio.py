@@ -34,9 +34,9 @@ def getdata_diskio():
 
 def diskio():
     data_old = getdata_diskio()
-    old_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
+    #old_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
     time.sleep(240)
-    new_time = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    #new_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
     data_new = getdata_diskio()
 
     pgpgin_pass = (data_new['pgpgin'] - data_old['pgpgin']) / 240
@@ -47,7 +47,7 @@ def diskio():
     return result
 
 def sql(result):
-    time_now = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+    time_now = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
     pgpgin_pass = result[0]
     pgpgout_pass = result[1]
 

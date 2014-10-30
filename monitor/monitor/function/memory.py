@@ -51,7 +51,7 @@ def sql(result):
     data = result[0]
     Memuse = result[1]
 
-    time_now = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+    time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
     conn = MySQLdb.connect(
             host = 'localhost',
             port = 3306,

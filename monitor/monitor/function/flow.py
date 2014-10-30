@@ -8,6 +8,7 @@
 #  ------------------------------------
 import re
 import time
+import MySQLdb
 
 
 def getdata_flow():
@@ -31,9 +32,9 @@ def getdata_flow():
 def flow():
     data_old = getdata_flow()
     
-    time_old = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+    #time_old = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
     time.sleep(60)
-    time_new = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+    #time_new = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
     
     data_new = getdata_flow()
 
@@ -45,7 +46,8 @@ def flow():
         old = data_old[count]
         new = data_new[count]
         interface = old[0]
-        byte = (new[1] - old[1]) * 8 #转换成bit流
+        #byte = (new[1] - old[1]) * 8 #转换成bit流
+        byte = (new[1] - old[1])
         packets = new[2] - old[2]
 
         tmp = [interface, byte, packets]
@@ -53,9 +55,33 @@ def flow():
 
         count += 1
 
-    print result
+    return result
+
+def sql(result):
+    time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+
+    conn = MySQLdb.connect(
+            host = 'localhost',
+            port = 3306,
+            user = 'root',
+            passwd = 'notamaiba',
+            db = 'monitor',
+            )
+    cur = conn.cursor()
+    
+    for each_line in result:
+
+        cur.execute(
+                'insert into state_flow(time, interface, byte, packets) values(%s, %s, %s, %s)',
+                (time_now, each_line[0], each_line[1], each_line[2])
+                )
+
+    cur.close()
+    conn.commit()
+    conn.close()
 
 
-flow()
-
+if __name__ == '__main__':
+    result = flow()
+    sql(result)
 
