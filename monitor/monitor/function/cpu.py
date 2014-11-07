@@ -10,6 +10,8 @@
 import time 
 import MySQLdb
 
+
+
 def getdata():
     f = open('/proc/stat', 'r')    
     

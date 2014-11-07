@@ -19,7 +19,7 @@ def server_socket():
     ADDR = (HOST, PORT)
 
     sersock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sersock.setsockopt(socket.SQL_SOCKET, socket.SO_REUSEADDR, 1)
+    sersock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     sersock.bind(ADDR)
     sersock.listen(5)
 
@@ -28,29 +28,31 @@ def server_socket():
         clisock, addr = sersock.accept()
         print 'connection from :', addr
     
-    try:
+        #try:
         data = clisock.recv(BUFSIZ)
         host = clisock.getpeername()
         thread = process(host, data)
         thread.start()
         clisock.close()
-    
-    except:
-        print 'ERROR'
+        
+        #except:
+            #print 'ERROR'
     
 
 class process(threading.Thread):
     def __init__(self, host, data):
-        threading.Thread.__init__(self)
-        
-        print 'processint host: %s monitor data' % host
         
         self.data = data
         self.host = host
 
+        threading.Thread.__init__(self)
+        
+        print 'processint host: ', self.host
+
     def run(self):
         'PROCESSING ...'
-        pass
+        print self.data
+        #pass
         #print 'HOST %s IS DONE' % host
         
 
