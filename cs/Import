@@ -7,11 +7,9 @@
 #  Email : wangzhaojiang2013@gmail.com
 #  ------------------------------------
 
-import os, sys
-
-
-dir = os.path.abspath('../monitor/monitor/function')
-
-sys.path.insert(0, dir)
-
-
+#import os, sys
+#
+#
+#dir = os.path.abspath('../monitor/monitor/function')
+#
+#sys.path.insert(0, dir)
