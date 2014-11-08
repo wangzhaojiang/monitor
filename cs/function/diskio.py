@@ -70,10 +70,15 @@ def sql(result):
     conn.commit()
     conn.close()
 
+    sqldata = [time_now, pgpgin_pass, pgpgout_pass]
+
+    return sqldata
+
 
 def main():
     result = diskio()
-    sql(result)
+    sqldata = sql(result)
+    return sqldata
 
 if __name__ == '__main__':
     main()

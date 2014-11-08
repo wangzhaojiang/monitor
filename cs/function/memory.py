@@ -69,10 +69,16 @@ def sql(result):
     conn.commit()
     conn.close()
 
+    sqldata = [time_now, Memuse, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:']]
+
+    return sqldata
+
+
 
 def main():
     result = memory()
-    sql(result)
+    sqldata = sql(result)
+    return sqldata
 
 
 if __name__ == '__main__':

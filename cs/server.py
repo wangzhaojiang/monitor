@@ -12,11 +12,19 @@ import threading
 import MySQLdb
 
 
+
+HOST = ''
+PORT = 10000
+BUFSIZ = 4096
+ADDR = (HOST, PORT)
+
+
 def server_socket():
-    HOST = ''
-    PORT = 10000
-    BUFSIZ = 4096
-    ADDR = (HOST, PORT)
+
+    global HOST
+    global PORT
+    global BUFSIZ
+    global ADDR
 
     sersock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sersock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -28,10 +36,9 @@ def server_socket():
         clisock, addr = sersock.accept()
         print 'connection from :', addr
     
+        
         #try:
-        data = clisock.recv(BUFSIZ)
-        host = clisock.getpeername()
-        thread = process(host, data)
+        thread = process(clisock)
         thread.start()
         clisock.close()
         
@@ -40,20 +47,23 @@ def server_socket():
     
 
 class process(threading.Thread):
-    def __init__(self, host, data):
+    def __init__(self, clisock):
         
-        self.data = data
-        self.host = host
+        global BUFSIZ
+
+        self.clisock = clisock
+        self.data = self.clisock.recv(BUFSIZ)
+        self.host = self.clisock.getpeername()
 
         threading.Thread.__init__(self)
         
-        print 'processint host: ', self.host
 
     def run(self):
         'PROCESSING ...'
-        print self.data
         #pass
-        #print 'HOST %s IS DONE' % host
+        print 'processint host: ', self.host
+
+        print self.data
         
 
 if __name__ == '__main__':

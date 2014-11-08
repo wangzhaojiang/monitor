@@ -84,13 +84,18 @@ def sql(result):
     conn.commit()
     conn.close()
 
+    sqldata = [time_now, result[0], result[1], result[2]]
+    
+    return sqldata
+
 
 def main():
     data_old = getdata()
-    time.sleep(15)
+    time.sleep(2)
     data_new = getdata()
     result = calculate(data_old, data_new)
-    sql(result)
+    sqldata = sql(result)
+    return sqldata
 
 
 if __name__ == "__main__":

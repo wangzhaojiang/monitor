@@ -62,11 +62,16 @@ def sql(result):
     conn.commit()
     conn.close()
 
+    sqldata = [time_now, each_line[0], each_line[1], each_line[2]]
+
+    return sqldata
+
 
 
 def main():
     result = netstat()
-    sql(result)
+    sqldata = sql(result)
+    return sqldata
 
 
 if __name__ == '__main__':
