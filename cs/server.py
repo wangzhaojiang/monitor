@@ -52,18 +52,35 @@ class process(threading.Thread):
         global BUFSIZ
 
         self.clisock = clisock
-        self.data = self.clisock.recv(BUFSIZ)
-        self.host = self.clisock.getpeername()
 
         threading.Thread.__init__(self)
         
 
     def run(self):
         'PROCESSING ...'
-        #pass
-        print 'processint host: ', self.host
-
         print self.data
+
+        host = self.data[0]
+        del self.data[0]
+        ip = self.data[1]
+        del self.data[0]
+
+        result = {}
+
+        while True:
+            off = data.index('|')
+            tmp = data[0:off]
+            result[tmp[0]] = tmp[1:off]
+
+            #delete the used data
+            count = 0
+
+            while count < (off + 1):
+                del data[0]
+                count += 1
+
+
+        
         
 
 if __name__ == '__main__':

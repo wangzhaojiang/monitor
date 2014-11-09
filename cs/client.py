@@ -15,7 +15,7 @@ from function import *
 def client_socket():
     HOST = '127.0.0.1'
     PORT = 10000
-    BUFSIZ = 512
+    BUFSIZ = 4096
     ADDR = (HOST, PORT)
     
     clisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,9 +24,32 @@ def client_socket():
 
     data = getdata()
 
-    data = str(data)
+    data = process_data(data)
 
     clisock.send(data)
+
+def process_data(data):
+    host = socket.gethostname()
+    ip = socket.gethostbyname(host)
+
+    cpu_data = data['cpu']
+    print cpu_data
+
+    def tostr(data):
+        count = 0
+        while count < len(data):
+            data[count] = str(data[count])
+            count += 1
+
+    tostr(cpu_data)
+    cpu_data = 'cpu' + ','.join(cpu_data)
+    
+
+    result = host + ',' + ip + ',' + cpu_data + ',' + '|'
+
+    return result
+
+
 
 def getdata():
     # execute the __file__.py to get the monitor data
