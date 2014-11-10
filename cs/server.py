@@ -81,7 +81,6 @@ class process(threading.Thread):
 
 
         
-        
 
 if __name__ == '__main__':
     server_socket()
