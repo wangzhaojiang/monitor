@@ -33,7 +33,8 @@ def flow():
     data_old = getdata_flow()
     
     #time_old = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
-    time.sleep(60)
+    #time.sleep(60)
+    time.sleep(2)
     #time_new = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
     
     data_new = getdata_flow()
@@ -68,6 +69,8 @@ def sql(result):
             db = 'monitor',
             )
     cur = conn.cursor()
+
+    sqldata = []
     
     for each_line in result:
 
@@ -75,12 +78,13 @@ def sql(result):
                 'insert into state_flow(time, interface, byte, packets) values(%s, %s, %s, %s)',
                 (time_now, each_line[0], each_line[1], each_line[2])
                 )
+        sqldata.append([time_now, each_line[0], each_line[1], each_line[2]])
 
     cur.close()
     conn.commit()
     conn.close()
 
-    sqldata = [time_now, each_line[0], each_line[1], each_line[2]]
+    print sqldata
 
     return sqldata
 

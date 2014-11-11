@@ -35,7 +35,8 @@ def getdata_diskio():
 def diskio():
     data_old = getdata_diskio()
     #old_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
-    time.sleep(240)
+    #time.sleep(240)
+    time.sleep(2)
     #new_time = time.strftime('%Y-%m-%d-%H:%M',time.localtime(time.time()))
     data_new = getdata_diskio()
 

@@ -50,6 +50,8 @@ def sql(result):
     
     cur = conn.cursor()
 
+    sqldata = []
+
     for each_line in result:
         each_line = each_line.split()
 
@@ -57,12 +59,12 @@ def sql(result):
                 'insert into state_netstat(time, types, address, pid_programname) values(%s, %s, %s, %s)',
                 (time_now, each_line[0], each_line[1], each_line[2])
                 )
+        sqldata.append([time_now, each_line[0], each_line[1], each_line[2]])
     
     cur.close()
     conn.commit()
     conn.close()
 
-    sqldata = [time_now, each_line[0], each_line[1], each_line[2]]
 
     return sqldata
 

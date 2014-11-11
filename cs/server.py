@@ -15,7 +15,7 @@ import MySQLdb
 
 HOST = ''
 PORT = 10000
-BUFSIZ = 4096
+BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
 
@@ -52,6 +52,7 @@ class process(threading.Thread):
         global BUFSIZ
 
         self.clisock = clisock
+        self.data = self.clisock.recv(BUFSIZ).split('^^')
 
         threading.Thread.__init__(self)
         
@@ -59,7 +60,6 @@ class process(threading.Thread):
     def run(self):
         'PROCESSING ...'
         print self.data
-
         host = self.data[0]
         del self.data[0]
         ip = self.data[1]
@@ -68,16 +68,23 @@ class process(threading.Thread):
         result = {}
 
         while True:
-            off = data.index('|')
-            tmp = data[0:off]
+            off = self.data.index('|')
+            tmp = self.data[0:off]
             result[tmp[0]] = tmp[1:off]
 
             #delete the used data
             count = 0
 
             while count < (off + 1):
-                del data[0]
+                del self.data[0]
                 count += 1
+
+            if len(self.data) <= 0:
+                break
+        print result
+
+
+        
 
 
         
