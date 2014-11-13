@@ -68,18 +68,20 @@ def process_data(data):
 
 def getdata():
     # execute the __file__.py to get the monitor data
-    cpu_data = cpu.main()
-    diskio_data = diskio.main()
-    flow_data = flow.main()
-    memory_data = memory.main()
-    netstat_data = netstat.main()
+    
+    #cpu_data = cpu.main()
+    #diskio_data = diskio.main()
+    #flow_data = flow.main()
+    #memory_data = memory.main()
+    #netstat_data = netstat.main()
 
-    data = {'cpu': cpu_data,
-            'diskio': diskio_data,
-            'flow': flow_data,
-            'memory': memory_data,
-            'netstat': netstat_data,
-            }
+    #data = {'cpu': cpu_data,
+    #        'diskio': diskio_data,
+    #        'flow': flow_data,
+    #        'memory': memory_data,
+    #        'netstat': netstat_data,
+    #        }
+    categoty = ['cpu', 'diskio', 'flow', 'memory', 'netstat']
 
     return data
 
