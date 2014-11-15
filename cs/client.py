@@ -75,12 +75,12 @@ def getdata():
     #memory_data = memory.main()
     #netstat_data = netstat.main()
 
-    #data = {'cpu': cpu_data,
-    #        'diskio': diskio_data,
-    #        'flow': flow_data,
-    #        'memory': memory_data,
-    #        'netstat': netstat_data,
-    #        }
+    data = {'cpu': cpu_data,
+            'diskio': diskio_data,
+            'flow': flow_data,
+            'memory': memory_data,
+            'netstat': netstat_data,
+            }
     categoty = ['cpu', 'diskio', 'flow', 'memory', 'netstat']
 
     return data
