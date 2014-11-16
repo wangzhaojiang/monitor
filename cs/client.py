@@ -8,6 +8,7 @@
 #  ------------------------------------
 import socket
 import os
+import threading
 from function import *
 
 
@@ -26,7 +27,7 @@ def client_socket():
 
     data = process_data(data)
 
-    #clisock.send(data)
+    clisock.send(data)
 
 def process_data(data):
     host = socket.gethostname()
@@ -69,22 +70,46 @@ def process_data(data):
 def getdata():
     # execute the __file__.py to get the monitor data
     
-    #cpu_data = cpu.main()
-    #diskio_data = diskio.main()
-    #flow_data = flow.main()
-    #memory_data = memory.main()
-    #netstat_data = netstat.main()
-
-    data = {'cpu': cpu_data,
-            'diskio': diskio_data,
-            'flow': flow_data,
-            'memory': memory_data,
-            'netstat': netstat_data,
+    categoty = {'cpu': cpu.main,
+            'diskio': diskio.main,
+            'flow': flow.main,
+            'memory': memory.main,
+            'netstat': netstat.main,
             }
-    categoty = ['cpu', 'diskio', 'flow', 'memory', 'netstat']
+
+    data = {}
+    threads = []
+
+    for key in categoty.iterkeys():
+        t = thread_getdata(key, categoty, data)
+        t.setDaemon(True)
+        t.start()
+        threads.append(t)
+
+    for t in threads:
+        t.join()
+
 
     return data
 
+class thread_getdata(threading.Thread):
+    def __init__(self, key, categoty, data):
+        self.key = key
+        self.categoty = categoty
+        self.data = data
+
+        threading.Thread.__init__(self)
+
+    def run(self):
+        lock = threading.Lock()
+
+        lock.acquire()
+
+        try:
+            self.data[self.key] = self.categoty[self.key]()
+
+        finally:
+            lock.release()
 
 
 

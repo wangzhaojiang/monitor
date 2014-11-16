@@ -84,7 +84,7 @@ def sql(result):
     conn.commit()
     conn.close()
 
-    print sqldata
+    #print sqldata
 
     return sqldata
 
