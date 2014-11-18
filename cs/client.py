@@ -16,7 +16,7 @@ from function import *
 def client_socket():
     HOST = '127.0.0.1'
     PORT = 10000
-    BUFSIZ = 1024
+    BUFSIZ = 4096
     ADDR = (HOST, PORT)
     
     clisock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,6 +56,8 @@ def process_data(data):
     flow_data = 'flow' + '^^' + '^^'.join(flow_data) + '^^' + '|' + '^^'
     memory_data = 'memory' + '^^' + '^^'.join(memory_data) + '^^' + '|' + '^^'
     netstat_data = 'netstat' + '^^' + '^^'.join(netstat_data) + '^^' + '|' + '^^'
+    
+    print host
     
 
     result = host + '^^' + ip + '^^' + cpu_data + diskio_data + flow_data + memory_data + netstat_data

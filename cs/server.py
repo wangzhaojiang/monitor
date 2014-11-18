@@ -15,7 +15,7 @@ import MySQLdb
 
 HOST = ''
 PORT = 10000
-BUFSIZ = 1024
+BUFSIZ = 4096
 ADDR = (HOST, PORT)
 
 
@@ -62,7 +62,7 @@ class process(threading.Thread):
         print self.data
         host = self.data[0]
         del self.data[0]
-        ip = self.data[1]
+        ip = self.data[0]
         del self.data[0]
 
         result = {}
@@ -84,10 +84,6 @@ class process(threading.Thread):
         print result
 
 
-        
-
-
-        
 
 if __name__ == '__main__':
     server_socket()
