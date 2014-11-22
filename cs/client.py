@@ -81,13 +81,15 @@ def getdata():
 
     data = {}
     threads = []
-
+    
+    #让各个线程去处理数据
     for key in categoty.iterkeys():
         t = thread_getdata(key, categoty, data)
         t.setDaemon(True)
         t.start()
         threads.append(t)
 
+    #等待所有数据处理完毕
     for t in threads:
         t.join()
 
