@@ -62,8 +62,8 @@ def sql(result):
     cur = conn.cursor()
 
     cur.execute(
-            'insert into state_memory(time, memuse, memtotal, swaptotal, swapfree) values(%s, %s, %s, %s, %s)',
-            (time_now, Memuse, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:']))
+            'insert into state_memory(ip, time, memuse, memtotal, swaptotal, swapfree) values(%s, %s, %s, %s, %s, %s)',
+            ('127.0.0.1', time_now, Memuse, data['MemTotal:'], data['SwapTotal:'], data['SwapFree:']))
 
     cur.close()
     conn.commit()

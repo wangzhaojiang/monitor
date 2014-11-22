@@ -63,8 +63,8 @@ def sql(result):
     cur = conn.cursor()
     
     cur.execute(
-            'insert into state_diskio(time, pgpgin, pgpgout) values(%s, %s, %s)',
-            (time_now, pgpgin_pass, pgpgout_pass)
+            'insert into state_diskio(ip, time, pgpgin, pgpgout) values(%s, %s, %s, %s)',
+            ('127.0.0.1', time_now, pgpgin_pass, pgpgout_pass)
             )
     
     cur.close()

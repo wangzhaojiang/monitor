@@ -101,6 +101,7 @@ class thread_getdata(threading.Thread):
         self.key = key
         self.categoty = categoty
         self.data = data
+        print key, 'getting the data'
 
         threading.Thread.__init__(self)
 

@@ -75,8 +75,8 @@ def sql(result):
     for each_line in result:
 
         cur.execute(
-                'insert into state_flow(time, interface, byte, packets) values(%s, %s, %s, %s)',
-                (time_now, each_line[0], each_line[1], each_line[2])
+                'insert into state_flow(ip, time, interface, byte, packets) values(%s, %s, %s, %s, %s)',
+                ('127.0.0.1', time_now, each_line[0], each_line[1], each_line[2])
                 )
         sqldata.append([time_now, each_line[0], each_line[1], each_line[2]])
 

@@ -56,8 +56,8 @@ def sql(result):
         each_line = each_line.split()
 
         cur.execute(
-                'insert into state_netstat(time, types, address, pid_programname) values(%s, %s, %s, %s)',
-                (time_now, each_line[0], each_line[1], each_line[2])
+                'insert into state_netstat(ip, time, types, address, pid_programname) values(%s, %s, %s, %s, %s)',
+                ('127.0.0.1', time_now, each_line[0], each_line[1], each_line[2])
                 )
         sqldata.append([time_now, each_line[0], each_line[1], each_line[2]])
     

@@ -76,8 +76,8 @@ def sql(result):
     cur = conn.cursor()
 
     cur.execute(
-            'insert into state_cpu(time, user_use, system_use, all_use) values(%s, %s, %s, %s)',
-            (time_now, result[0], result[1], result[2])
+            'insert into state_cpu(ip, time, user_use, system_use, all_use) values(%s, %s, %s, %s, %s)',
+            ('127.0.0.1', time_now, result[0], result[1], result[2])
             )
 
     cur.close()
