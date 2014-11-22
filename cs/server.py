@@ -32,18 +32,18 @@ def server_socket():
     sersock.listen(5)
 
     while True:
-        print 'Waiting for the connection ...'
+        #print 'Waiting for the connection ...'
         clisock, addr = sersock.accept()
         print 'connection from :', addr
     
         
-        #try:
-        thread = process(clisock)
-        thread.start()
-        clisock.close()
+        try:
+            thread = process(clisock)
+            thread.start()
+            clisock.close()
         
-        #except:
-            #print 'ERROR'
+        except:
+            print 'ERROR'
     
 
 class process(threading.Thread):
@@ -53,19 +53,21 @@ class process(threading.Thread):
 
         self.clisock = clisock
         self.data = self.clisock.recv(BUFSIZ).split('^^')
+        self.categoty = ['cpu', 'diskio', 'flow', 'memory', 'netstat']
 
         threading.Thread.__init__(self)
         
 
     def run(self):
         'PROCESSING ...'
-        print self.data
         host = self.data[0]
         del self.data[0]
         ip = self.data[0]
         del self.data[0]
 
-        result = {}
+        #print self.data
+
+        self.result = {}
 
         while True:
             off = self.data.index('|')
@@ -79,9 +81,11 @@ class process(threading.Thread):
                 del self.data[0]
                 count += 1
 
-            if len(self.data) <= 0:
+            if len(self.data) <= 1:
                 break
-        print result
+
+    def sql_data(self):
+        pass
 
 
 
