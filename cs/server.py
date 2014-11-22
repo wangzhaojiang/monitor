@@ -87,7 +87,12 @@ class process(threading.Thread):
         self.sql_data()
 
     def sql_data(self):
-        conn = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'notamaiba', port = 3306)
+        conn = MySQLdb.connect(
+                host = 'localhost', 
+                user = 'root', 
+                passwd = 'notamaiba', 
+                port = 3306)
+
         cur = conn.cursor()
         conn.select_db('monitor')
 
@@ -95,19 +100,107 @@ class process(threading.Thread):
         cpu_data = self.result['cpu']
         value = [self.ip, cpu_data[0], cpu_data[1], cpu_data[2], cpu_data[3]]
         
-        cur.execute('insert into state_cpu(ip, time, user_use, system_use, all_use) values(%s, %s, %s, %s)', value)
+        cur.execute(
+                'insert into state_cpu(ip, time, user_use, system_use, all_use) values(%s, %s, %s, %s, %s)',
+                value)
+
+        print 'cpu_data sql done'
         
         #sql memory_data
         memory_data = self.result['memory']
         value = [self.ip, memory_data[0], memory_data[1], memory_data[2], memory_data[3], memory_data[4]]
 
-        cur.execute('insert into state_memory(ip, time, memuse, memtotal, swaptotal, swapfree) values(%s, %s, %s, %s, %s, %s)',value)
+        cur.execute(
+                'insert into state_memory(ip, time, memuse, memtotal, swaptotal, swapfree) values(%s, %s, %s, %s, %s, %s)',
+                value)
+
+        print 'memory_data sql done'
 
         #sql diskio_data
         diskio_data = self.result['diskio']
         value = [self.ip, diskio_data[0], diskio_data[1], diskio_data[2]]
 
-        cur.execute('insert into state_diskio(ip, time, pgpgin, pgpgout) values(%s, %s, %s, %s)',value)
+        cur.execute(
+                'insert into state_diskio(ip, time, pgpgin, pgpgout) values(%s, %s, %s, %s)',
+                value)
+
+        print 'diskio_data sql done'
+
+        #sql flow_data
+        flow_data = str(self.result['flow'])
+        #上面的str 是为了下面能够用split() 函数进行分离
+
+        #'''''''''''''stupid way to process the data'''''''''''''''
+
+        #for each in flow_data:
+        #    each = each.split(',')
+        #    length = len(each[0].strip())
+        #    time = each[0].strip()[2:(length - 1)]
+        #    length = len(each[1].strip())
+        #    interface = each[1].strip()[1:(length - 2)]
+        #    byte = each[2].strip()
+        #    length = len(each[3].strip())
+        #    packets = each[3].strip()[0:(length - 1)]
+
+        #    value = [self.ip, time, interface, byte, packets]
+        #    
+        #    cur.execute(
+        #            'insert into state_flow(ip, time, interface, byte, packets) values(%s, %s, %s,%s, %s)',
+        #            value
+        #            )
+        
+        for each in flow_data.split(']'):
+            each = each.strip('\' \" \,\[')
+            
+            value = [self.ip]
+
+            if (each != ""):
+                each = each.split(',')
+                for tmp in each :
+                    tmp = tmp.strip('\" \,')
+                    if(tmp != ''):
+                        value.append(tmp)
+
+            #print value
+
+            if(len(value) > 1):
+                cur.execute(
+                        'insert into state_flow(ip, time, interface, byte, packets) values(%s, %s, %s,%s, %s)',
+                        value
+                        )
+        
+        print 'flow_data sql done'
+
+        #sql netstat_data
+        netstat_data = str(self.result['netstat']) 
+        #上面的str 是为了下面能够用split() 函数进行分离
+        
+        for each in netstat_data.split(']'):
+            each = each.strip('", [')
+            
+            value = [self.ip]
+
+            if(each != ""):
+                each = each.split(',')
+                #print each
+                for tmp in each:
+                    tmp = tmp.strip('\" \'')
+                    if(tmp != ""):
+                        value.append(tmp)
+            
+            #print value
+            if (len(value) > 1):
+                cur.execute(
+                        'insert into state_netstat(ip, time, types, address, pid_programname) values(%s, %s, %s, %s, %s)',
+                        value
+                        )
+
+        print 'netstat_data sql done'
+
+
+        cur.close()
+        conn.commit()
+        conn.close()
 
 
 
