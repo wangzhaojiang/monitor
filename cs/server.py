@@ -60,9 +60,9 @@ class process(threading.Thread):
 
     def run(self):
         'PROCESSING ...'
-        host = self.data[0]
+        self.host = self.data[0]
         del self.data[0]
-        ip = self.data[0]
+        self.ip = self.data[0]
         del self.data[0]
 
         #print self.data
@@ -72,7 +72,7 @@ class process(threading.Thread):
         while True:
             off = self.data.index('|')
             tmp = self.data[0:off]
-            result[tmp[0]] = tmp[1:off]
+            self.result[tmp[0]] = tmp[1:off]
 
             #delete the used data
             count = 0
@@ -84,8 +84,32 @@ class process(threading.Thread):
             if len(self.data) <= 1:
                 break
 
+        self.sql_data()
+
     def sql_data(self):
-        pass
+        conn = MySQLdb.connect(host = 'localhost', user = 'root', passwd = 'notamaiba', port = 3306)
+        cur = conn.cursor()
+        conn.select_db('monitor')
+
+        #sql cpu_data
+        cpu_data = self.result['cpu']
+        value = [self.ip, cpu_data[0], cpu_data[1], cpu_data[2], cpu_data[3]]
+        
+        cur.execute('insert into state_cpu(ip, time, user_use, system_use, all_use) values(%s, %s, %s, %s)', value)
+        
+        #sql memory_data
+        memory_data = self.result['memory']
+        value = [self.ip, memory_data[0], memory_data[1], memory_data[2], memory_data[3], memory_data[4]]
+
+        cur.execute('insert into state_memory(ip, time, memuse, memtotal, swaptotal, swapfree) values(%s, %s, %s, %s, %s, %s)',value)
+
+        #sql diskio_data
+        diskio_data = self.result['diskio']
+        value = [self.ip, diskio_data[0], diskio_data[1], diskio_data[2]]
+
+        cur.execute('insert into state_diskio(ip, time, pgpgin, pgpgout) values(%s, %s, %s, %s)',value)
+
+
 
 
 
