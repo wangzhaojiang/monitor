@@ -203,8 +203,5 @@ class process(threading.Thread):
         conn.close()
 
 
-
-
-
 if __name__ == '__main__':
     server_socket()
