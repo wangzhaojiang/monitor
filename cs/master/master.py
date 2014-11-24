@@ -10,13 +10,20 @@
 import socket
 import threading
 import MySQLdb
+import sys
+
+sys.path.append('..')
+
+from get_conf import *
 
 BUFSIZ = 4096
 
 def server_socket():
 
     HOST = ''
-    PORT = 10000
+    #PORT = 10000
+    data = get_conf_data()
+    PORT = int(data['trans_port'])
     ADDR = (HOST, PORT)
 
     sersock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

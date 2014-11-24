@@ -6,6 +6,9 @@
 #  Author : Wangzhaojiang
 #  Email : wangzhaojiang2013@gmail.com
 #  ------------------------------------
+import os
+
+
 
 def get_conf_file(param):
     file = open(param, 'r')
@@ -28,18 +31,32 @@ class Myerror(Exception):
     def __init__(self, error_info):
         print error_info
 
+#判断路径是否正确 （避免master.py, slave.py 的调用问题 ）
+def juage(path):
+    cwd = os.getcwd()
+
+    if(cwd[-2::] == 'cs'):
+        return path
+    else:
+        path = '../' + path
+        return path
+
 
 def get_conf_data():
     data = {}
 
     #get the conf data
-    content = get_conf_file('conf/monitor.conf')
+    path = 'conf/monitor.conf'
+    path = juage(path)
+    content = get_conf_file(path)
     monitor_conf = data_filter(content)
     for each in monitor_conf:
         data[each[0]] = each[1]
 
     #get the master_node data
-    content = get_conf_file('conf/master_node')
+    path = 'conf/master_node'
+    path = juage(path)
+    content = get_conf_file(path)
     master_node = data_filter(content)
     if(len(master_node) != 1):
         error_info = 'master 节点个数大于 1'
@@ -49,7 +66,9 @@ def get_conf_data():
 
         
     #get the slave_node data
-    content = get_conf_file('conf/slave_node')
+    path = 'conf/slave_node'
+    path = juage(path)
+    content = get_conf_file(path)
     tmp = data_filter(content)
     slave_node = []
 
@@ -58,11 +77,7 @@ def get_conf_data():
 
     data['slave_node'] = slave_node
 
-    print data
-
-
-    
-
+    return data
 
 
 if __name__ == '__main__':

@@ -10,12 +10,17 @@ import socket
 import os
 import threading
 from function import *
+import sys
 
+sys.path.append('..')
+
+from get_conf import *
 
 
 def client_socket():
-    HOST = '127.0.0.1'
-    PORT = 10000
+    data = get_conf_data()
+    HOST = data['master_node']
+    PORT = int(data['trans_port'])
     BUFSIZ = 4096
     ADDR = (HOST, PORT)
     
@@ -106,6 +111,7 @@ class thread_getdata(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
+        # 多线程获得数据并且 加锁
         lock = threading.Lock()
 
         lock.acquire()
@@ -119,5 +125,6 @@ class thread_getdata(threading.Thread):
 
 
 if __name__ == '__main__':
+    
     client_socket()
     
