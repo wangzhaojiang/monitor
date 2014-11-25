@@ -10,7 +10,12 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-cd ..
+# here will create some BUG!!!!!!!
+path='/home/wzj/Documents/python/monitor/cs'
+echo 'start...'
+
+cd $path
+
 if [ -f self_check.py ]; then
     python self_check.py
 fi

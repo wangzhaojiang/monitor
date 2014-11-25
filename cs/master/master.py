@@ -13,7 +13,10 @@ import MySQLdb
 import sys
 import os
 #切换工作目录， 为了下面的'''import'''
+print os.getcwd()
 os.chdir(os.path.dirname('./' + sys.argv[0]))
+
+print os.getcwd()
 
 sys.path.append('..')
 
@@ -26,9 +29,10 @@ def server_socket():
     os.chdir(os.path.dirname('../'))
     data = get_conf_data()
 
-    HOST = ''
+    HOST = data['master_node']
     PORT = int(data['trans_port'])
     ADDR = (HOST, PORT)
+    print ADDR
 
     sersock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sersock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
