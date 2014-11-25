@@ -11,6 +11,9 @@ import socket
 import threading
 import MySQLdb
 import sys
+import os
+#切换工作目录， 为了下面的'''import'''
+os.chdir(os.path.dirname('./' + sys.argv[0]))
 
 sys.path.append('..')
 
@@ -20,9 +23,10 @@ BUFSIZ = 4096
 
 def server_socket():
 
-    HOST = ''
-    #PORT = 10000
+    os.chdir(os.path.dirname('../'))
     data = get_conf_data()
+
+    HOST = ''
     PORT = int(data['trans_port'])
     ADDR = (HOST, PORT)
 
@@ -87,14 +91,15 @@ class process(threading.Thread):
         self.sql_data()
 
     def sql_data(self):
+        data = get_conf_data()
         conn = MySQLdb.connect(
-                host = 'localhost', 
-                user = 'root', 
-                passwd = 'notamaiba', 
-                port = 3306)
+                host = data['database_host'], 
+                user = data['database_user'], 
+                passwd = data['database_passwd'], 
+                port = int(data['database_port']))
 
         cur = conn.cursor()
-        conn.select_db('monitor')
+        conn.select_db(data['database_db'])
 
         #sql cpu_data
         cpu_data = self.result['cpu']

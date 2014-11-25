@@ -9,6 +9,14 @@
 import re
 import time
 import MySQLdb
+import os
+import sys
+
+#os.chdir(os.path.dirname('./' + sys.argv[0]))
+
+#sys.path.append('../..')
+
+from get_conf import *
 
 
 def getdata_flow():
@@ -61,13 +69,24 @@ def flow():
 def sql(result):
     time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
 
+#    conn = MySQLdb.connect(
+#            host = 'localhost',
+#            port = 3306,
+#            user = 'root',
+#            passwd = 'notamaiba',
+#            db = 'monitor',
+#            )
+    #os.chdir(os.path.dirname('../../'))
+    param = get_conf_data()
+
     conn = MySQLdb.connect(
-            host = 'localhost',
-            port = 3306,
-            user = 'root',
-            passwd = 'notamaiba',
-            db = 'monitor',
+            host = param['database_host'],
+            port = int(param['database_port']),
+            user = param['database_user'],
+            passwd = param['database_passwd'],
+            db = param['database_db'],
             )
+
     cur = conn.cursor()
 
     sqldata = []

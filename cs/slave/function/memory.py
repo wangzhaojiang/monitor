@@ -9,6 +9,15 @@
 import re
 import MySQLdb
 import time
+import os
+import sys
+
+#os.chdir(os.path.dirname('./' + sys.argv[0]))
+
+#sys.path.append('../../')
+
+from get_conf import *
+
 
 
 
@@ -52,12 +61,15 @@ def sql(result):
     Memuse = result[1]
 
     time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+    #os.chdir(os.path.dirname('../../'))
+    param = get_conf_data()
+
     conn = MySQLdb.connect(
-            host = 'localhost',
-            port = 3306,
-            user = 'root',
-            passwd = 'notamaiba',
-            db = 'monitor',
+            host = param['database_host'],
+            port = int(param['database_port']),
+            user = param['database_user'],
+            passwd = param['database_passwd'],
+            db = param['database_db'],
             )
     cur = conn.cursor()
 

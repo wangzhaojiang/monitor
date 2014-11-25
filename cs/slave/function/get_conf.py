@@ -46,6 +46,7 @@ def get_conf_data():
     data = {}
 
     #get the conf data
+    #print os.getcwd()
     path = 'conf/monitor.conf'
     #path = juage(path)
     content = get_conf_file(path)

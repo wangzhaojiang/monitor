@@ -9,15 +9,20 @@
 import socket
 import os
 import threading
-from function import *
 import sys
 
-sys.path.append('..')
+#切换工作目录
+os.chdir(os.path.dirname('./' + sys.argv[0]))
+
+from function import *
+
+sys.path.append('../')
 
 from get_conf import *
 
 
 def client_socket():
+    os.chdir(os.path.dirname('../'))
     data = get_conf_data()
     HOST = data['master_node']
     PORT = int(data['trans_port'])
