@@ -11,6 +11,7 @@ import sys
 import os
 import time
 
+os.chdir(os.path.dirname('./' + sys.argv[0]))
 sys.path.append('..')
 
 from get_conf import *
@@ -18,14 +19,16 @@ from get_conf import *
 
 
 def ser():
+    
+    log = open('../logs/master_alive.log', 'a+')
+    os.system('python master.py > /dev/null &')
+
+    os.chdir(os.path.dirname('../'))
     param = get_conf_data()
     BUFSIZE = 1024
     HOST = ''
     PORT = int(param['daemon_port'])
     ADDR = (HOST, PORT)
-    
-    log = open('../logs/master_alive.log', 'a+')
-    os.system('python master.py > /dev/null &')
 
     udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     udp_sock.bind(ADDR)
