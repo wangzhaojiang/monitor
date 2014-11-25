@@ -38,8 +38,9 @@ def ser():
     while True:
         time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
         data, addr = udp_sock.recvfrom(BUFSIZE)
-        print data
         print >> log, time_now, ' ',  addr[0], ' is alive'
+        print addr[0], 'is online'
         udp_sock.sendto('got it', addr)    
+        print 'send...'
 
 ser()

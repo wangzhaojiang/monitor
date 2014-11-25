@@ -8,10 +8,19 @@
 #  ------------------------------------
 from get_conf import *
 import socket
+import os
 
 
 def check():
     data = get_conf_data()
+    
+    #check the MySQLdb
+    try:
+        import MySQLdb
+
+    except:
+        #install MySQLdb
+        print 'install MySQLdb'
 
     #get local ip
     localip = socket.gethostbyname(socket.gethostname())
@@ -19,12 +28,13 @@ def check():
     if(localip == data['master_node']):
         print 'MASTER:...'
         #master do
-        pass
+        os.system('python master/master_daemon.py')
+
 
     else:
         print 'Slave...'
         #slave do
-        pass
+        os.system('python slave/slave_daemon.py')
 
 
 check()

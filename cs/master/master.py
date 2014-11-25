@@ -39,12 +39,11 @@ def server_socket():
         #print 'Waiting for the connection ...'
         clisock, addr = sersock.accept()
         print 'connection from :', addr
-    
+        
         
         try:
             thread = process(clisock)
             thread.start()
-            clisock.close()
         
         except:
             print 'ERROR'
@@ -58,6 +57,8 @@ class process(threading.Thread):
         self.clisock = clisock
         self.data = self.clisock.recv(BUFSIZ).split('^^')
         self.categoty = ['cpu', 'diskio', 'flow', 'memory', 'netstat']
+
+        clisock.close()
 
         threading.Thread.__init__(self)
         

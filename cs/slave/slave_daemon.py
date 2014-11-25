@@ -38,9 +38,10 @@ def cli():
     while True:
         time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
         udp_cli.sendto('online', ADDR)
+        print 'send online info'
+        time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
+        print >> send_log, time_now, ' send data to ',param['master_node'], '(master)'
         data, addr = udp_cli.recvfrom(BUFSIZE)
         print >> alive_log, time_now, ' ', addr[0], '(master)', 'is alive'
         os.system('python slave.py')
-        time_now = time.strftime('%Y-%m-%d-%H:%M', time.localtime(time.time()))
-        print >> send_log, time_now, ' send data to ', addr[0]
 cli()
